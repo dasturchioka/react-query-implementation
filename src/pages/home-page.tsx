@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router'
 import Card from '../components/card'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 
 export default function HomePage() {
 	async function fetchUsers() {
@@ -23,7 +23,7 @@ export default function HomePage() {
 		error: usersError,
 		refetch: usersRefetch,
 		isRefetching: isUsersRefetching,
-	} = useQuery({
+	} = useSuspenseQuery<{ users: { firstName: string }[] }>({
 		queryKey: ['users'],
 		queryFn: fetchUsers,
 		staleTime: Infinity,
@@ -35,7 +35,7 @@ export default function HomePage() {
 		error: productsError,
 		refetch: productsRefetch,
 		isRefetching: isProductsRefetching,
-	} = useQuery({
+	} = useSuspenseQuery<{ products: { title: string }[] }>({
 		queryKey: ['products'],
 		queryFn: fetchProducts,
 		staleTime: Infinity,

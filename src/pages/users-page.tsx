@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 export default function UsersPage() {
-	const [randomId, setRandomId] = useState(Math.floor(Math.random() * 30))
+	const [randomId] = useState(Math.floor(Math.random() * 30))
 
 	async function fetchUser() {
 		const response = await fetch(`https://dummyjson.com/users/${randomId}`)

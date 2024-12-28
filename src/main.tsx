@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const HomePage = lazy(() => import('./pages/home-page'))
@@ -27,12 +27,14 @@ const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
 	<QueryClientProvider client={queryClient}>
-		<BrowserRouter>
-			<Routes>
-				{routes.map((route, index) => (
-					<Route key={index} path={route.path} element={route.element} />
-				))}
-			</Routes>
-		</BrowserRouter>
+		<Suspense fallback={<div className='h-screen flex items-center justify-center'>Loading...</div>}>
+			<BrowserRouter>
+				<Routes>
+					{routes.map((route, index) => (
+						<Route key={index} path={route.path} element={route.element} />
+					))}
+				</Routes>
+			</BrowserRouter>
+		</Suspense>
 	</QueryClientProvider>
 )
